@@ -43,13 +43,13 @@ func registerUser(w http.ResponseWriter, r *http.Request) {
 	// var id int
 	row, err := db.Query(`SELECT * FROM users WHERE email = $1`, newUser.Email)
 	if row.Next() {
-		w.WriteHeader(400)
 		var httpErro errHTTP
 		httpErro.HTTPError.Message = "this email already registered"
 
 		jsonEncoded, _ := json.Marshal(httpErro)
 		w.Header().Set("Content-Type", "application/json")
 		w.Write(jsonEncoded)
+		w.WriteHeader(400)
 		return
 	}
 
