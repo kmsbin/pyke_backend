@@ -49,7 +49,7 @@ func registerUser(w http.ResponseWriter, r *http.Request) {
 
 		jsonEncoded, _ := json.Marshal(httpErro)
 		w.Header().Set("Content-Type", "application/json")
-		w.Write([]byte(jsonEncoded))
+		w.Write(jsonEncoded)
 		return
 	}
 
