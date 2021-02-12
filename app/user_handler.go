@@ -44,13 +44,12 @@ func registerUser(w http.ResponseWriter, r *http.Request) {
 	row, err := db.Query(`SELECT * FROM users WHERE email = $1`, newUser.Email)
 	if row.Next() {
 		w.WriteHeader(400)
-		response :=
-			`{
-			"error": {
-					"message": "this email already registered"
-			}}`
+		var httpErro errHTTP
+		httpErro.HTTPError.Message = "this email already registered"
+
+		jsonEncoded, _ := json.Marshal(httpErro)
 		w.Header().Set("Content-Type", "application/json")
-		w.Write([]byte(response))
+		w.Write([]byte(jsonEncoded))
 		return
 	}
 
@@ -108,9 +107,9 @@ func loginUser(w http.ResponseWriter, r *http.Request) {
 			err.HTTPError.Message = "wrong password"
 			jsonEncode, _ := json.Marshal(err)
 
+			w.WriteHeader(400)
 			w.Header().Set("Content-Type", "application/json")
 			w.Write(jsonEncode)
-			w.WriteHeader(400)
 		}
 		return
 	}
