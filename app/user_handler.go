@@ -105,6 +105,8 @@ func loginUser(w http.ResponseWriter, r *http.Request) {
 			fmt.Println("SUJEITO VALIDADO")
 			jsonEncode, _ := json.Marshal(u)
 			w.Write(jsonEncode)
+			w.WriteHeader(200)
+			return
 		} else {
 			var err errHTTP
 
