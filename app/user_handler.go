@@ -103,7 +103,7 @@ func loginUser(w http.ResponseWriter, r *http.Request) {
 		if isValite {
 			fmt.Println("SUJEITO VALIDADO")
 		} else {
-			var err errHttp
+			var err errHTTP
 
 			err.HTTPError.Message = "wrong password"
 			jsonEncode, _ := json.Marshal(err)
@@ -115,7 +115,7 @@ func loginUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	w.WriteHeader(400)
-	var errCred errHttp
+	var errCred errHTTP
 	errCred.HTTPError.Message = "not registered email"
 	jsonEncode, _ := json.Marshal(errCred)
 
