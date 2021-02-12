@@ -76,7 +76,7 @@ func registerUser(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(200)
 }
 
-type errHttp struct {
+type errHTTP struct {
 	HTTPError message `json:"error"`
 }
 type message struct {
