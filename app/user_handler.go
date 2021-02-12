@@ -76,6 +76,13 @@ func registerUser(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(200)
 }
 
+type errHttp struct {
+	HTTPError message `json:"error"`
+}
+type message struct {
+	Message string `json:"message"`
+}
+
 func loginUser(w http.ResponseWriter, r *http.Request) {
 
 	var newUser user
@@ -96,25 +103,24 @@ func loginUser(w http.ResponseWriter, r *http.Request) {
 		if isValite {
 			fmt.Println("SUJEITO VALIDADO")
 		} else {
-			response :=
-				`{
-				"error": {
-						"message": "wrong password"
-				}}`
+			var err errHttp
+
+			err.HTTPError.Message = "wrong password"
+			jsonEncode, _ := json.Marshal(err)
+
 			w.Header().Set("Content-Type", "application/json")
-			w.Write([]byte(response))
+			w.Write(jsonEncode)
 			w.WriteHeader(400)
 		}
 		return
 	}
 	w.WriteHeader(400)
-	response :=
-		`{
-			"error": {
-					"message": "this email is not registered"
-			}}`
+	var errCred errHttp
+	errCred.HTTPError.Message = "wrong password"
+	jsonEncode, _ := json.Marshal(errCred)
+
 	w.Header().Set("Content-Type", "application/json")
-	w.Write([]byte(response))
+	w.Write(jsonEncode)
 	return
 
 }
