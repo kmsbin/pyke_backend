@@ -72,6 +72,8 @@ func registerUser(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		panic(err)
 	}
+	jsonEncode, _ := json.Marshal(newUser)
+	w.Write(jsonEncode)
 	w.WriteHeader(200)
 }
 
@@ -101,6 +103,8 @@ func loginUser(w http.ResponseWriter, r *http.Request) {
 		isValite, _ := VerifyPassword(newUser.Password, u.Password)
 		if isValite {
 			fmt.Println("SUJEITO VALIDADO")
+			jsonEncode, _ := json.Marshal(u)
+			w.Write(jsonEncode)
 		} else {
 			var err errHTTP
 
