@@ -16,6 +16,9 @@ func main() {
 	r.HandleFunc("/user/{id}", userGetHandler).Methods("GET")
 	r.HandleFunc("/user/", registerUser).Methods("POST")
 	r.HandleFunc("/login/", loginUser).Methods("POST")
+	r.HandleFunc("/history/{id}", historyHandler).Methods("GET")
+	r.HandleFunc("/history/", historyRegister).Methods("POST")
+	r.HandleFunc("/history/{id}", updateHistory).Methods("PUT")
 
 	http.ListenAndServe(string(":"+os.Getenv("PORT")), r)
 }

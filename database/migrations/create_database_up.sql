@@ -6,7 +6,8 @@ CREATE TABLE IF NOT EXISTS users (
     password_key VARCHAR(256) NOT NULL
 );
 CREATE TABLE IF NOT EXISTS route_history (
-    id_history INTEGER NOT NULL CONSTRAINT pk_id_history PRIMARY KEY,
+    id_history SERIAL NOT NULL CONSTRAINT pk_id_history PRIMARY KEY,
+    is_favorite BOOLEAN NOT NULL,
     id_user INTEGER NOT NULL,
     latitude_from REAL NOT NULL,
     longitude_from REAL NOT NULL,
