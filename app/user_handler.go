@@ -114,13 +114,11 @@ func loginUser(w http.ResponseWriter, r *http.Request) {
 		}
 		return
 	}
-	w.WriteHeader(400)
 	var errCred errHTTP
 	errCred.HTTPError.Message = "not registered email"
 	jsonEncode, _ := json.Marshal(errCred)
 
 	w.Header().Set("Content-Type", "application/json")
 	w.Write(jsonEncode)
-	return
-
+	w.WriteHeader(400)
 }
