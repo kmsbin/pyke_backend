@@ -1,6 +1,6 @@
 
 CREATE TABLE IF NOT EXISTS users (
-    id_user INTEGER NOT NULL CONSTRAINT pk_id_user PRIMARY KEY,
+    id_user SERIAL CONSTRAINT pk_id_user PRIMARY KEY,
     user_name VARCHAR(128) NOT NULL,
     email VARCHAR(128) NOT NULL,
     password_key VARCHAR(256) NOT NULL

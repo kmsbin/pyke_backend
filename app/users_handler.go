@@ -2,7 +2,6 @@ package main
 
 import (
 	"encoding/json"
-	"fmt"
 	"log"
 	"net/http"
 
@@ -21,7 +20,6 @@ func usersHandler(w http.ResponseWriter, r *http.Request) {
 	for rows.Next() {
 		var u user
 		rows.Scan(&u.ID, &u.Name, &u.Email, &u.Password)
-		fmt.Println(u)
 		users.Users = append(users.Users, u)
 	}
 	jsonCode, _ := json.Marshal(users)
