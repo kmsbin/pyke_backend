@@ -96,16 +96,17 @@ func loginUser(w http.ResponseWriter, r *http.Request) {
 
 	db := getDBInstance()
 	// var id int
-	row, err := db.Query(`SELECT * FROM users WHERE email = $1`, newUser.Email)
+	row, _ := db.Query(`SELECT * FROM users WHERE email = $1`, newUser.Email)
 	if row.Next() {
 		var u user
 		row.Scan(&u.ID, &u.Name, &u.Email, &u.Password)
 		isValite, _ := VerifyPassword(newUser.Password, u.Password)
 		if isValite {
 			fmt.Println("SUJEITO VALIDADO")
+			w.Header().Set("Content-Type", "application/json")
+			w.WriteHeader(200)
 			jsonEncode, _ := json.Marshal(u)
 			w.Write(jsonEncode)
-			w.WriteHeader(200)
 			return
 		} else {
 			var err errHTTP
@@ -113,17 +114,17 @@ func loginUser(w http.ResponseWriter, r *http.Request) {
 			err.HTTPError.Message = "wrong password"
 			jsonEncode, _ := json.Marshal(err)
 
-			w.WriteHeader(400)
 			w.Header().Set("Content-Type", "application/json")
+			w.WriteHeader(400)
 			w.Write(jsonEncode)
 		}
 		return
 	}
 	var errCred errHTTP
+	w.Header().Set("Content-Type", "application/json")
 	errCred.HTTPError.Message = "not registered email"
 	jsonEncode, _ := json.Marshal(errCred)
-
-	w.Header().Set("Content-Type", "application/json")
-	w.Write(jsonEncode)
 	w.WriteHeader(400)
+
+	w.Write(jsonEncode)
 }

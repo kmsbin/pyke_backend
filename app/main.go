@@ -1,14 +1,21 @@
 package main
 
 import (
+	"log"
 	"net/http"
 	"os"
 
 	"github.com/gorilla/mux"
+	"github.com/joho/godotenv"
+	_ "github.com/joho/godotenv/autoload"
 )
 
 func main() {
 	getDBInstance()
+	err := godotenv.Load(".env")
+	if err != nil {
+		log.Fatal(err)
+	}
 	defer killInstance()
 	r := mux.NewRouter()
 
