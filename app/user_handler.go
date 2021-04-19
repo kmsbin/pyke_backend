@@ -41,7 +41,7 @@ func registerUser(w http.ResponseWriter, r *http.Request) {
 
 	db := getDBInstance()
 	// var id int
-	row, err := db.Query(`SELECT * FROM users WHERE email = $1`, newUser.Email)
+	row, _ := db.Query(`SELECT * FROM users WHERE email = $1`, newUser.Email)
 	if row.Next() {
 		var httpErro errHTTP
 		httpErro.HTTPError.Message = "this email already registered"

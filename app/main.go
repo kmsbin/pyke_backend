@@ -1,7 +1,6 @@
 package main
 
 import (
-	"log"
 	"net/http"
 	"os"
 
@@ -12,10 +11,7 @@ import (
 
 func main() {
 	getDBInstance()
-	err := godotenv.Load(".env")
-	if err != nil {
-		log.Fatal(err)
-	}
+	_ = godotenv.Load(".env")
 	defer killInstance()
 	r := mux.NewRouter()
 
