@@ -9,6 +9,11 @@ import (
 	"github.com/gorilla/mux"
 )
 
+type response struct {
+	Message string `json:"message"`
+	Code    int8   `json:"code"`
+}
+
 func userGetHandler(w http.ResponseWriter, r *http.Request) {
 
 	db := getDBInstance()
@@ -72,7 +77,8 @@ func registerUser(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		panic(err)
 	}
-	jsonEncode, _ := json.Marshal(newUser)
+	w.Header().Set("Content-Type", "application/json")
+	jsonEncode, _ := json.Marshal(response{Message: "user registered", Code: 2})
 	w.Write(jsonEncode)
 	w.WriteHeader(200)
 }

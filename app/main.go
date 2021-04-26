@@ -2,17 +2,19 @@ package main
 
 import (
 	"net/http"
-	"os"
 
 	"github.com/gorilla/mux"
 	"github.com/joho/godotenv"
 	_ "github.com/joho/godotenv/autoload"
 )
 
+func init() {
+	_ = godotenv.Load("../.env")
+}
+
 func main() {
-	getDBInstance()
-	_ = godotenv.Load(".env")
 	defer killInstance()
+	getDBInstance()
 	r := mux.NewRouter()
 
 	r.HandleFunc("/users", usersHandler).Methods("GET")
@@ -23,5 +25,5 @@ func main() {
 	r.HandleFunc("/history/", historyRegister).Methods("POST")
 	r.HandleFunc("/history/{id}", updateHistory).Methods("PUT")
 
-	http.ListenAndServe(string(":"+os.Getenv("PORT")), r)
+	http.ListenAndServe(":8080", r)
 }
