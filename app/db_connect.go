@@ -16,7 +16,6 @@ func getDBInstance() *sql.DB {
 		once.Do(
 			func() {
 				var err error
-				fmt.Println(os.Getenv("DATABASE_URL"))
 				dbConn, err = sql.Open("postgres", os.Getenv("DATABASE_URL"))
 				if err != nil {
 					panic(err)
