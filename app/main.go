@@ -2,6 +2,7 @@ package main
 
 import (
 	"net/http"
+	"os"
 
 	"github.com/gorilla/mux"
 	"github.com/joho/godotenv"
@@ -25,5 +26,5 @@ func main() {
 	r.HandleFunc("/history/", historyRegister).Methods("POST")
 	r.HandleFunc("/history/{id}", updateHistory).Methods("PUT")
 
-	http.ListenAndServe(":8080", r)
+	http.ListenAndServe(string(":"+os.Getenv("PORT")), r)
 }
