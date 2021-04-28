@@ -4,14 +4,18 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"os"
 	"strconv"
+	"time"
 
+	"github.com/dgrijalva/jwt-go"
 	"github.com/gorilla/mux"
 )
 
 type response struct {
-	Message string `json:"message"`
-	Code    int8   `json:"code"`
+	Message     string `json:"message"`
+	Code        int8   `json:"code"`
+	AccessToken string `json:"access_token"`
 }
 
 func userGetHandler(w http.ResponseWriter, r *http.Request) {
@@ -77,10 +81,28 @@ func registerUser(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		panic(err)
 	}
+	token, err := CreateToken(uint64(newUser.ID))
+	if err != nil {
+		panic(err)
+	}
+
 	w.Header().Set("Content-Type", "application/json")
-	jsonEncode, _ := json.Marshal(response{Message: "user registered", Code: 2})
+	jsonEncode, _ := json.Marshal(response{Message: "user registered", Code: 2, AccessToken: token})
 	w.Write(jsonEncode)
 	w.WriteHeader(200)
+}
+
+func CreateToken(userid uint64) (string, error) {
+	var err error
+	//Creating Access Token
+	os.Setenv("ACCESS_SECRET", "ashssfksd") //this should be in an env file
+	atClaims := jwt.MapClaims{"authorized": true, "user_id": userid, "exp": time.Now().Add(time.Minute * 30).Unix()}
+	at := jwt.NewWithClaims(jwt.SigningMethodHS256, atClaims)
+	token, err := at.SignedString([]byte(os.Getenv("ACCESS_SECRET")))
+	if err != nil {
+		return "", err
+	}
+	return token, nil
 }
 
 type errHTTP struct {

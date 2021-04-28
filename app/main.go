@@ -27,4 +27,5 @@ func main() {
 	r.HandleFunc("/history/{id}", updateHistory).Methods("PUT")
 
 	http.ListenAndServe(string(":"+os.Getenv("PORT")), r)
+	// http.ListenAndServe(":8080", r)
 }
