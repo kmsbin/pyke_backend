@@ -18,6 +18,9 @@ func main() {
 	getDBInstance()
 	r := mux.NewRouter()
 
+	r.Handle("/auth", AuthMiddleware(usersHandler))
+	r.Handle("/auth/{access_token}", AuthMiddleware(usersHandler))
+
 	r.HandleFunc("/users", usersHandler).Methods("GET")
 	r.HandleFunc("/user/{id}", userGetHandler).Methods("GET")
 	r.HandleFunc("/user/", registerUser).Methods("POST")
