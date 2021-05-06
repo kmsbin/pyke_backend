@@ -6,6 +6,8 @@ import (
 	"net/http"
 	"strconv"
 
+	_ "pi_backend/app/auth"
+
 	"github.com/gorilla/mux"
 )
 
