@@ -6,7 +6,7 @@ import (
 	"net/http"
 	"strconv"
 
-	_ "pi_backend/app/auth"
+	_ "github.com/kmsbin/pi_backend/app/auth"
 
 	"github.com/gorilla/mux"
 )

@@ -1,3 +1,3 @@
-module pyke_backend/app/auth
+module auth
 
 go 1.16

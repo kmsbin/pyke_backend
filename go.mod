@@ -1,8 +1,8 @@
-module pi_backend
+module pyke_backend
 
 go 1.14
 
-replace pi_backend/app/auth v0.0.0 => ./app/auth
+replace pyke_backend/app/auth v0.0.0 => ./app/auth
 
 require (
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible // indirect
@@ -11,5 +11,5 @@ require (
 	github.com/lib/pq v1.10.1
 	golang.org/x/crypto v0.0.0-20210421170649-83a5a9bb288b
 	golang.org/x/sys v0.0.0-20210423185535-09eb48e85fd7 // indirect
-	pi_backend/app/auth v0.0.0 // indirect
+	github.com/kmsbin/pyke_backend/app/auth v0.0.0 // indirect
 )
