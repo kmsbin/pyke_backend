@@ -1,8 +1,6 @@
-module pyke_backend
+module auth
 
-go 1.14
-
-replace pyke_backend/app/auth v0.0.0 => ./app/auth
+go 1.16
 
 require (
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible // indirect

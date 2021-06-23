@@ -6,12 +6,15 @@ import (
 	"net/http"
 	"strconv"
 
+	_ "github.com/kmsbin/pi_backend/app/auth"
+
 	"github.com/gorilla/mux"
 )
 
 type response struct {
-	Message string `json:"message"`
-	Code    int8   `json:"code"`
+	Message     string `json:"message"`
+	Code        int8   `json:"code"`
+	AccessToken string `json:"access_token"`
 }
 
 func userGetHandler(w http.ResponseWriter, r *http.Request) {
@@ -77,8 +80,13 @@ func registerUser(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		panic(err)
 	}
+	token, err := CreateToken(uint64(newUser.ID))
+	if err != nil {
+		panic(err)
+	}
+
 	w.Header().Set("Content-Type", "application/json")
-	jsonEncode, _ := json.Marshal(response{Message: "user registered", Code: 2})
+	jsonEncode, _ := json.Marshal(response{Message: "user registered", Code: 2, AccessToken: token})
 	w.Write(jsonEncode)
 	w.WriteHeader(200)
 }
@@ -111,6 +119,12 @@ func loginUser(w http.ResponseWriter, r *http.Request) {
 			fmt.Println("SUJEITO VALIDADO")
 			w.Header().Set("Content-Type", "application/json")
 			w.WriteHeader(200)
+			token, err := CreateToken(uint64(u.ID))
+			if err != nil {
+				panic(err)
+			}
+			u.AccessToken = token
+
 			jsonEncode, _ := json.Marshal(u)
 			w.Write(jsonEncode)
 			return
